@@ -1,0 +1,16 @@
+[Project]
+ProjectName=EM
+ProjectType=EXE
+[Source Files]
+FileName=.\main.cpp
+FileName=.\em.cpp
+[Header Files]
+FileName=.\em.h
+[Other Files]
+[$ProjectFilesNotInFolder$]
+[$Breakpoints$]
+[$Watches$]
+Name=plfMin[0]
+Name=plfMin[1]
+Name=plfMax[0]
+Name=plfMax[1]

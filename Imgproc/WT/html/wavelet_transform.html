@@ -1,0 +1,156 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>wavelet_transform</title><meta name="generator" content="MATLAB 8.0"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-07-09"><meta name="DC.source" content="wavelet_transform.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">&#32472;&#21046;FT&#22270;</a></li><li><a href="#3">&#32472;&#21046;SIFT&#22270;</a></li><li><a href="#4">&#32472;&#20986;Haar&#23567;&#27874;&#21644;&#21407;&#20449;&#21495;&#32463;Harr&#23567;&#27874;&#21464;&#25442;&#21518;&#30340;&#22270;</a></li><li><a href="#5">&#32472;&#21046;Hamming&#30340;&#26102;&#39057;&#22270;</a></li></ul></div><pre class="codeinput">Fs=10000;N=1024;n=0:1/Fs:1;  <span class="comment">%Fs&#37319;&#26679;&#39057;&#29575;&#65292;N&#37319;&#26679;&#28857;&#25968;&#65292;n&#26102;&#24207;&#28857;</span>
+xn=sin(400*pi*n)+cos(600*pi*n)+4*n+0.2*randn(size(n)); <span class="comment">%&#21464;&#25442;&#21407;&#20989;&#25968;,f1=200Hz,f2=300Hz</span>
+figure(1);
+plot(n,xn); <span class="comment">%&#30011;&#20986;&#21407;&#20989;&#25968;&#22270;&#24418;</span>
+title(<span class="string">'Original Signal'</span>);
+xlabel(<span class="string">'Time-n'</span>); ylabel(<span class="string">'Amplitude-xn'</span>);<span class="comment">%&#26631;&#27880;&#27178;&#32437;&#22352;&#26631;</span>
+</pre><img vspace="5" hspace="5" src="wavelet_transform_01.png" alt=""> <h2>&#32472;&#21046;FT&#22270;<a name="2"></a></h2><pre class="codeinput">y=fft(xn,N)/(N/2); <span class="comment">%&#23545;&#21407;&#20989;&#25968;&#36827;&#34892;&#20613;&#37324;&#21494;&#21464;&#21270;&#65292;&#37319;&#26679;&#28857;&#25968;&#20026;N,&#24182;&#36827;&#34892;&#24133;&#20540;&#30340;&#24402;&#19968;&#21270;&#22788;&#29702;</span>
+Y=abs(y);
+w=(0:length(Y)-1)*Fs/length(Y);<span class="comment">%&#35745;&#31639;&#27178;&#36724;&#39057;&#29575;&#65292;&#31526;&#21512;&#22856;&#22862;&#26031;&#29305;&#37319;&#26679;&#23450;&#29702;</span>
+figure(2);
+plot(w,Y);<span class="comment">%&#30011;&#20986;FT&#22270;&#24418;</span>
+xlabel(<span class="string">'Frequency-w'</span>); ylabel(<span class="string">'Amplitude-Y'</span>);
+title(<span class="string">'FT figure'</span>);
+</pre><img vspace="5" hspace="5" src="wavelet_transform_02.png" alt=""> <h2>&#32472;&#21046;SIFT&#22270;<a name="3"></a></h2><pre class="codeinput">[S,F,T,P] = spectrogram(xn,1024,512,1024,10000);<span class="comment">%&#23545;&#21407;&#20989;&#25968;&#36827;&#34892;STFT&#21464;&#25442;&#65292;&#37319;&#29992;hamming&#31383;</span>
+figure(3);
+surf(T,F,10*log10(P),<span class="string">'edgecolor'</span>,<span class="string">'none'</span>); <span class="comment">%&#32472;&#20986;3D&#26102;&#39057;&#22270;&#24182;&#22635;&#20805;</span>
+axis <span class="string">tight</span>;set(gca,<span class="string">'YLim'</span>,[0 5000]);<span class="comment">%&#35774;&#32622;&#22352;&#26631;&#36724;</span>
+colorbar;<span class="comment">%&#26174;&#31034;&#39068;&#33394;&#26465;</span>
+xlabel(<span class="string">'Time (Seconds)'</span>); ylabel(<span class="string">'Frequence(Hz)'</span>);zlabel(<span class="string">'STFT'</span>);
+title(<span class="string">'STFT figure'</span>)
+</pre><img vspace="5" hspace="5" src="wavelet_transform_03.png" alt=""> <h2>&#32472;&#20986;Haar&#23567;&#27874;&#21644;&#21407;&#20449;&#21495;&#32463;Harr&#23567;&#27874;&#21464;&#25442;&#21518;&#30340;&#22270;<a name="4"></a></h2><pre class="codeinput">i=20;wav=<span class="string">'haar'</span>;
+[phi,g1,xval]=wavefun(wav,i);
+figure(4);subplot(1,2,1);
+plot(xval,g1,<span class="string">'-r'</span>,<span class="string">'LineWidth'</span>,1.5);
+xlabel(<span class="string">'t'</span>);title(<span class="string">'haar &#26102;&#22495;&#22270;'</span>);
+g2=fft(g1);g3=abs(g2);subplot(1,2,2);plot(g3);
+xlabel(<span class="string">'f'</span>);title(<span class="string">'haar &#39057;&#22495;&#22270;'</span>)
+figure(5);
+c=cwt(xn,1:512,<span class="string">'haar'</span>,<span class="string">'plot'</span>);<span class="comment">%&#35745;&#31639;&#19968;&#32500;&#36830;&#32493;&#23567;&#27874;&#21464;&#25442;&#65292;&#24182;&#32472;&#22270;&#65292;&#23567;&#27874;&#37319;&#29992;haar&#20989;&#25968;</span>
+title(<span class="string">'WT figure'</span>);
+colorbar;<span class="comment">%&#26174;&#31034;&#39068;&#33394;&#26465;</span>
+</pre><img vspace="5" hspace="5" src="wavelet_transform_04.png" alt=""> <img vspace="5" hspace="5" src="wavelet_transform_05.png" alt=""> <h2>&#32472;&#21046;Hamming&#30340;&#26102;&#39057;&#22270;<a name="5"></a></h2><pre class="codeinput">figure(6);
+B=ceil(8/0.15);
+p=hamming(B);<span class="comment">%&#20135;&#29983;&#38271;&#24230;&#20026;B&#30340;Hamming&#31383;</span>
+subplot(1,2,1);plot(p);<span class="comment">%&#32472;&#22270;</span>
+title(<span class="string">'Hamming &#26102;&#22495;&#22270;'</span>);xlabel(<span class="string">'t'</span>);
+[h1,h2]=freqz(p,1);
+subplot(1,2,2);
+plot(h2/pi,20*log(abs(h1)/abs(h1(1))));  <span class="comment">%&#30011;Hamming&#31383;&#39057;&#35889;&#22270;</span>
+title(<span class="string">'Hamming &#39057;&#22495;&#22270;'</span>);xlabel(<span class="string">'f'</span>);
+</pre><img vspace="5" hspace="5" src="wavelet_transform_06.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2012b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+Fs=10000;N=1024;n=0:1/Fs:1;  %Fs采样频率，N采样点数，n时序点
+xn=sin(400*pi*n)+cos(600*pi*n)+4*n+0.2*randn(size(n)); %变换原函数,f1=200Hz,f2=300Hz
+figure(1);
+plot(n,xn); %画出原函数图形
+title('Original Signal');
+xlabel('Time-n'); ylabel('Amplitude-xn');%标注横纵坐标
+%%  绘制FT图
+y=fft(xn,N)/(N/2); %对原函数进行傅里叶变化，采样点数为N,并进行幅值的归一化处理
+Y=abs(y); 
+w=(0:length(Y)-1)*Fs/length(Y);%计算横轴频率，符合奈奎斯特采样定理
+figure(2);
+plot(w,Y);%画出FT图形
+xlabel('Frequency-w'); ylabel('Amplitude-Y');
+title('FT figure');
+%%  绘制SIFT图
+[S,F,T,P] = spectrogram(xn,1024,512,1024,10000);%对原函数进行STFT变换，采用hamming窗
+figure(3);
+surf(T,F,10*log10(P),'edgecolor','none'); %绘出3D时频图并填充
+axis tight;set(gca,'YLim',[0 5000]);%设置坐标轴
+colorbar;%显示颜色条
+xlabel('Time (Seconds)'); ylabel('Frequence(Hz)');zlabel('STFT');
+title('STFT figure')
+%% 绘出Haar小波和原信号经Harr小波变换后的图
+i=20;wav='haar';
+[phi,g1,xval]=wavefun(wav,i);
+figure(4);subplot(1,2,1);
+plot(xval,g1,'-r','LineWidth',1.5); 
+xlabel('t');title('haar 时域图'); 
+g2=fft(g1);g3=abs(g2);subplot(1,2,2);plot(g3); 
+xlabel('f');title('haar 频域图')
+figure(5);
+c=cwt(xn,1:512,'haar','plot');%计算一维连续小波变换，并绘图，小波采用haar函数
+title('WT figure');
+colorbar;%显示颜色条
+%% 绘制Hamming的时频图
+figure(6);
+B=ceil(8/0.15); 
+p=hamming(B);%产生长度为B的Hamming窗
+subplot(1,2,1);plot(p);%绘图
+title('Hamming 时域图');xlabel('t'); 
+[h1,h2]=freqz(p,1); 
+subplot(1,2,2);
+plot(h2/pi,20*log(abs(h1)/abs(h1(1))));  %画Hamming窗频谱图
+title('Hamming 频域图');xlabel('f');
+
+##### SOURCE END #####
+--></body></html>

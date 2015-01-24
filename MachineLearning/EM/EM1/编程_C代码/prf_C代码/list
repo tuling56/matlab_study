@@ -1,0 +1,11 @@
+MAXIMAL FLOW CODES
+
+  h_prf:   push-relabel algorithm (highest level).
+  m_prf:   push-relabel algorithm (highest level), no gaps.
+  q_prf:   push-relabel algorithm (queue).  
+  f_prf:   push-relabel algorithm (queue), no gaps.  
+  df:      Dinitz algorithm.
+
+GENERATOR
+
+  ak:      generator of hard problems

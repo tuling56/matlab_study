@@ -1,0 +1,9 @@
+k=10;
+figure(1);
+x=1:10;
+y=sin(x);
+plot(x,y);
+mkdir('D:\中文')
+%注意斜杠“\”,而不是“/”,而且目录后的“\”不能少
+saveas(1,['D:\中文\','Canny',num2str(k),'.jpg']);
+%saveas(1,['..\中文\','Canny',num2str(k),'.jpg']);

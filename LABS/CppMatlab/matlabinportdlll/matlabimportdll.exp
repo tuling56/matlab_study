@@ -1,0 +1,7 @@
+matlabimportdll.dll
+_matlabimportdllInitialize		_matlabimportdllInitialize
+_matlabimportdllInitializeWithHandlers		_matlabimportdllInitializeWithHandlers
+_matlabimportdllPrintStackTrace		_matlabimportdllPrintStackTrace
+_matlabimportdllTerminate		_matlabimportdllTerminate
+_mlfMatlabimportdll		_mlfMatlabimportdll
+_mlxMatlabimportdll		_mlxMatlabimportdll

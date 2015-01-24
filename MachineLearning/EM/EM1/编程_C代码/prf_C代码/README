@@ -1,0 +1,20 @@
+PRF contains codes and generators for the maximum flow problem
+For more detailed description, see "On Implementing Push-Relabel
+Method for the Maximum Flow Problem" by B.V. Cherkassky and 
+A.V. Goldberg, IPCO '95, 157--171.
+
+The programs are designed to run under BSD UNIX.
+All programs read from the standard input and write to the standard
+output. Run "make" to compile the programs and generators.
+File "list" lists the programs produced my "make".
+Input files are in DIMACS format. See sample.input.
+
+The program takes print level parameter. The default is 1.
+Setting print level to two makes the program print the flow found.
+
+PRF was developed by Boris Cherkassky (cher@cher.msk.su) and
+Andrew Goldberg (avg@research.nj.nec.com).
+
+The programs are available on "as is" basis. They are not guaranteed to
+be free of bugs, and the authors assume no responsibility for any
+potential problems. 
